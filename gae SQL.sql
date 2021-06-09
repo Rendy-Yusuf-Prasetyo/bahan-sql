@@ -39,10 +39,10 @@ select employee_id, first_name||' '||last_name "Nama Lengkap", decode(hire_date,
 
 
 // IF ELSE
-select employee_id, last_name,
-case when(sysdate - hire_date)/365 > 15
-then 'Karyawan Lama'
-when(sysdate - hire_date)/365 > 5 then 'Karyawan Lumayan Lama'
+select employee_id, last_name, trunc((to_date(sysdate) - hire_date)/365) "Total Kerja",
+case when(sysdate - hire_date)/365 > 19
+then 'Karyawan Lama Banget'
+when(sysdate - hire_date)/365 > 15 then 'Karyawan Lumayan Lama'
 else 'Karyawan Baru'
 end "TERM OFFICE" FROM hr.employees;
 
