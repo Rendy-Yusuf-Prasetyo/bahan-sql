@@ -1,11 +1,11 @@
 // CASE (kayak switch case)
 select last_name "Nama", hire_date "Dimulai", salary "Gaji",
 case  when hire_date < to_date('1-Jan-03','DD-MON-YY')
-then trunc(salary * 1)
-when hire_date < to_date('01-Jan-06','DD-MON-YY')
-then trunc(salary * 2)
-when hire_date < to_date('01-Jan-08','DD-MON-YY')
 then trunc(salary * 5)
+when hire_date < to_date('01-Jan-06','DD-MON-YY')
+then trunc(salary * 0,03)
+when hire_date < to_date('01-Jan-08','DD-MON-YY')
+then trunc(salary * 0,01)
 else salary
 end "Usulan Gaji"
 from hr.employees where department_id = 100 ORDER BY hire_date;
@@ -36,13 +36,14 @@ select employee_id, first_name||' '||last_name "Nama Lengkap", decode(hire_date,
 
 select employee_id, first_name||' '||last_name "Nama Lengkap", decode(hire_date, to_date('13-Jan-01','DD-MON-YY'), 'Sesepuh', 'Junior') "Tingkatan" from employees;
 
+ select employee_id, first_name||' '||last_name "Nama Lengkap", hire_date, salary "Gaji Awal", decode(first_name, 'Sarah', salary * 5, salary * 1) "Gaji Sekarang", decode(first_name, 'Sarah', trunc((salary * 5) - salary), null) "Selisih" from employees;
 
 
 // IF ELSE
-select employee_id, last_name, trunc((to_date(sysdate) - hire_date)/365) "Total Kerja",
-case when(sysdate - hire_date)/365 > 19
-then 'Karyawan Lama Banget'
-when(sysdate - hire_date)/365 > 15 then 'Karyawan Lumayan Lama'
+select employee_id, last_name,
+case when(sysdate - hire_date)/365 > 15
+then 'Karyawan Lama'
+when(sysdate - hire_date)/365 > 5 then 'Karyawan Lumayan Lama'
 else 'Karyawan Baru'
 end "TERM OFFICE" FROM hr.employees;
 
